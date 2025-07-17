@@ -50,6 +50,3 @@ if st.button("Prediksi"):
         vector = vectorizer.transform([clean_input])
         prediction = model.predict(vector)[0]
         st.success(f"Hasil prediksi: **{label_map[prediction]}**")
-
-# Menambahkan tulisan kecil
-st.markdown("<p style='font-size: 12px; color: gray;'>*tidak menggantikan peran psikolog</p>", unsafe_allow_html=True)
