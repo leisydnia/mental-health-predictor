@@ -53,5 +53,3 @@ if st.button("Prediksi"):
 
 # Menambahkan tulisan kecil
 st.markdown("<p style='font-size: 12px; color: gray;'>*tidak menggantikan peran psikolog</p>", unsafe_allow_html=True)
-
-        st.success(f"Hasil prediksi: **{label_map[prediction]}**")
