@@ -48,11 +48,11 @@ def preprocess(text):
     return ' '.join(tokens)
 
 # Mapping label ke hasil prediksi
-label_map = {0: "Normal", 1: "Kecemasan/Depresi"}
+label_map = {0: "Normal", 1: "Kecemasan"}
 
 # Menampilkan judul aplikasi
 st.title("Prediksi Kesehatan Mental dari Teks")
-st.write("Masukkan teks di bawah ini dan sistem akan memprediksi apakah termasuk normal atau mengalami kecemasan/depresi.")
+st.write("Masukkan teks di bawah ini dan sistem akan memprediksi apakah termasuk normal atau mengalami kecemasan.")
 
 # Input teks dari pengguna
 user_input = st.text_area("Teks masukan", height=150)
