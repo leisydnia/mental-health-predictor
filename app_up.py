@@ -4,25 +4,30 @@ import joblib
 import re
 from Sastrawi.Stemmer.StemmerFactory import StemmerFactory
 
-# ==========================
-# CUSTOM THEME (warna lembut menenangkan)
-# ==========================
+# ==========================================================
+# CUSTOM TEMA LEMBUT / PASTEL
+# ==========================================================
 page_bg = """
 <style>
-body {
-    background-color: #f0f7f7; /* Latar biru kehijauan lembut */
-    color: #2c3e50;
-    font-family: "Segoe UI", sans-serif;
+/* Latar belakang pastel */
+.stApp {
+    background-color: #f0f7f7;
 }
+
+/* Judul */
 h1 {
-    color: #2e8b57; /* Hijau pastel */
+    color: #2e8b57;
     text-align: center;
 }
+
+/* Area teks */
 textarea {
     background-color: #ffffff !important;
     color: #2c3e50 !important;
     border: 1px solid #aad8d3 !important;
 }
+
+/* Tombol */
 .stButton>button {
     background-color: #66b2b2 !important;
     color: white !important;
@@ -38,13 +43,13 @@ textarea {
 """
 st.markdown(page_bg, unsafe_allow_html=True)
 
-# ==========================
-# Load model dan vectorizer
-# ==========================
-model = joblib.load("svm_model_sas.pkl")            # Model SVM hasil training
-vectorizer = joblib.load("tfidf_vectorizer_sas.pkl")  # Vectorizer TF-IDF
+# ==========================================================
+# LOAD MODEL DAN VECTORIZER
+# ==========================================================
+model = joblib.load("svm_model_sas.pkl")
+vectorizer = joblib.load("tfidf_vectorizer_sas.pkl")
 
-# Kamus slang untuk normalisasi kata
+# Kamus slang
 slang_dict = {
     "gue": "aku", "gw": "aku", "gua": "aku",
     "ga": "tidak", "gak": "tidak", "tak": "tidak",
@@ -53,42 +58,41 @@ slang_dict = {
     "kalo": "kalau"
 }
 
-# Inisialisasi stemmer
+# Stemmer
 factory = StemmerFactory()
 stemmer = factory.create_stemmer()
 
-# ==========================
-# Preprocessing teks
-# ==========================
+# ==========================================================
+# FUNGSI PREPROCESSING
+# ==========================================================
 def preprocess(text):
-    # Huruf kecil
+    # lowercase
     text = text.lower()
 
-    # Menghapus URL, mention, dan karakter selain huruf
+    # hapus url, mention, non-huruf
     text = re.sub(r"http\S+|www.\S+", "", text)
     text = re.sub(r"@\w+", "", text)
     text = re.sub(r"[^a-zA-Z\s]", "", text)
 
-    # Normalisasi slang
+    # normalisasi slang
     tokens = text.split()
     tokens = [slang_dict.get(token, token) for token in tokens]
 
-    # Stemming
+    # stemming
     tokens = [stemmer.stem(token) for token in tokens]
 
     return ' '.join(tokens)
 
-# Mapping hasil prediksi
+# Mapping label
 label_map = {0: "Normal", 1: "Kecemasan"}
 
-# ==========================
-# Tampilan aplikasi
-# ==========================
+# ==========================================================
+# UI STREAMLIT
+# ==========================================================
 st.title("Prediksi Kesehatan Mental dari Teks")
-st.write("Masukkan teks di bawah ini, lalu tekan tombol prediksi. "
-         "Sistem akan menganalisis apakah teks termasuk **Normal** atau mengandung indikasi **Kecemasan**.")
+st.write("Masukkan teks pada kolom di bawah ini. Sistem akan menganalisis apakah teks tergolong **Normal** atau mengandung indikasi **Kecemasan**.")
 
-# Input teks
+# Input pengguna
 user_input = st.text_area("Teks masukan", height=150)
 
 # Tombol prediksi
@@ -96,19 +100,13 @@ if st.button("Prediksi"):
     if user_input.strip() == "":
         st.warning("Masukkan teks terlebih dahulu.")
     else:
-        # Preprocessing
         clean_input = preprocess(user_input)
-
-        # TF-IDF transform
         vector = vectorizer.transform([clean_input])
-
-        # Prediksi
         prediction = model.predict(vector)[0]
 
-        # Tampilkan hasil
         st.success(f"Hasil prediksi: **{label_map[prediction]}**")
 
-# Disclaimer
+# Disclaimer di bagian bawah
 st.markdown(
     "<p style='font-size: 12px; color: gray; text-align:center;'>"
     "*Aplikasi ini hanya bersifat pendukung dan tidak menggantikan peran psikolog</p>",
