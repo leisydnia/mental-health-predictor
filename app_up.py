@@ -20,11 +20,14 @@ html, body, [class*="css"]  {
     color: #1c1c1c !important;
 }
 
-/* Judul */
-h1 {
-    color: #2e8b57 !important;
+/* Judul custom agar tetap satu baris */
+.main-title {
     text-align: center;
+    color: #2e8b57;
     font-weight: bold;
+    font-size: 28px;
+    white-space: nowrap; /* cegah line break */
+    margin-bottom: 15px;
 }
 
 /* Subheader / teks deskripsi */
@@ -101,7 +104,9 @@ label_map = {0: "Normal", 1: "Kecemasan"}
 # ==========================================================
 # UI STREAMLIT
 # ==========================================================
-st.title("Prediksi Kesehatan Mental dari Teks")
+# Judul custom agar tidak terpotong
+st.markdown("<div class='main-title'>Prediksi Kesehatan Mental dari Teks</div>", unsafe_allow_html=True)
+
 st.write("Masukkan teks pada kolom di bawah ini. Sistem akan menganalisis apakah teks tergolong **Normal** atau mengandung indikasi **Kecemasan**.")
 
 # Input pengguna
