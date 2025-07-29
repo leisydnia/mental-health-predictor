@@ -5,19 +5,31 @@ import re
 from Sastrawi.Stemmer.StemmerFactory import StemmerFactory
 
 # ==========================================================
-# CUSTOM TEMA LEMBUT / PASTEL
+# STYLE CSS (background pastel + warna teks gelap)
 # ==========================================================
 page_bg = """
 <style>
 /* Latar belakang pastel */
 .stApp {
     background-color: #f0f7f7;
+    color: #1c1c1c !important;
+}
+
+/* Warna teks umum */
+html, body, [class*="css"]  {
+    color: #1c1c1c !important;
 }
 
 /* Judul */
 h1 {
-    color: #2e8b57;
+    color: #2e8b57 !important;
     text-align: center;
+    font-weight: bold;
+}
+
+/* Subheader / teks deskripsi */
+h2, h3, h4, h5, h6, p, label {
+    color: #1c1c1c !important;
 }
 
 /* Area teks */
